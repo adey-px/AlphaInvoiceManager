@@ -1,0 +1,17 @@
+{
+  "name": "alphainvoicemanager",
+  "version": "1.0.0",
+  "description": "Mern Invoice manager",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "MERN",
+    "Invoice",
+    "Redux",
+    "Toolkit"
+  ],
+  "author": "Oreofe-Stephen",
+  "license": "MIT"
+}
