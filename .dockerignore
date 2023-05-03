@@ -1,0 +1,8 @@
+# ignore while building docker container
+.env
+.git
+.npm
+logs
+*.log
+npm-debug.log*
+node_modules
