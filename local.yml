@@ -1,6 +1,7 @@
-# Docker compose file, services to run include:
+# Docker compose file, with services to run
+# * Each service is built as a container, & an image
+# - client - frontend logic & ui presentation (done last)
 # - server - express backend API & serve endpoints
-# - client - frontend logic & ui presentation
 # - mongodb - dhttps://hub.docker.com/_/mongo
 # - mongo express - https://hub.docker.com/_/mongo-express
 # - mailhog - fake smtp email testing tool for (development only)
@@ -8,6 +9,17 @@
 version: "3.9"
 
 services:
+  # client:
+  #   build:
+  #       context: ./client
+  #       dockerfile: ./docker/development/Dockerfile
+  #   restart: on-failure
+  #   volumes:
+  #     - ./client:/app
+  #     - /app/node_modules
+  #   networks:
+  #     - codera
+
   server:
     restart: always
     build:
@@ -25,17 +37,6 @@ services:
         MONGO_URI: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb
     networks:
         - codera
-
-  # client:
-  #   build:
-  #       context: ./client
-  #       dockerfile: ./docker/development/Dockerfile
-  #   restart: on-failure
-  #   volumes:
-  #     - ./client:/app
-  #     - /app/node_modules
-  #   networks:
-  #     - codera
 
   mongodb:
     image: mongo:5.0.6-focal

@@ -21,15 +21,15 @@ app.use(express.urlencoded({ extended: false }));
 /* handle cookies */
 app.use(cookieParser());
 
-/* testing */
-app.get('/', (req, res) => {
-  // res.send('Hello')
-	res.json({ Test: 'welcome' });
+/* test server with postman */
+app.get('/api/test', (req, res) => {
+	res.json({ Hello: 'Welcome here...' });
+	// res.send('Welcome here...')
 });
 
 //
-const PORT = process.env.PORT || 8000
+const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
-  console.log('Starting development server');
+	console.log('Started development server');
 });

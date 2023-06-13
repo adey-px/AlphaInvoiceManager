@@ -2,11 +2,11 @@
   "name": "alphainvoicemanager",
   "version": "1.0.0",
   "description": "Mern Invoice manager",
-  "main": "server.js",
+  "main": "app.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon server/server.js",
-    "start": "node server/server.js",
+    "dev": "nodemon server/app.js",
+    "start": "node server/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
