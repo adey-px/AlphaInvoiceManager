@@ -3,6 +3,7 @@ import 'dotenv/config';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 
+/* instance of express app */
 const app = express();
 
 /* run morgan in dev mode */

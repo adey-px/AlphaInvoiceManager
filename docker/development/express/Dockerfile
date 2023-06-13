@@ -10,17 +10,17 @@ ARG NODE_VERSION=16-alpine3.12
 FROM node:${NODE_VERSION}
 
 # label instruction to add image meta data
-LABEL name="mongilo-invoice"
+LABEL name="mongilo-beta-invoice"
 LABEL license="MIT"
-LABEL description="Mongilo invoice image"
+LABEL description="Mongilo Invoice Image"
 
 # environment instruction from .env
 ENV NODE_ENV=development
 
-# home directory for entire app
+# create home directory named app
 ARG APP_HOME=/app
 
-# workin directory using home directory above
+# workin directory from home directory
 WORKDIR ${APP_HOME}
 
 # by default, docker runs root user with all priviledges
@@ -37,7 +37,7 @@ RUN addgroup --system admin \
 #    cp -R usr/share /usr/share && \
 #    cp -R etc/fonts /etc && \
 #    curl -k -Ls https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2 | tar -jxf - &&\
-#    cp phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/local/bin/phantomjs && \
+#    cp phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/development/bin/phantomjs && \
 #    rm -fR phantomjs-2.1.1-linux-x86_64 && \
 #    apk del curl
 

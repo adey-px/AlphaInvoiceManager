@@ -1,0 +1,96 @@
+# Docker compose file, services to run include:
+# - server - express backend API & serve endpoints
+# - client - frontend logic & ui presentation
+# - mongodb - dhttps://hub.docker.com/_/mongo
+# - mongo express - https://hub.docker.com/_/mongo-express
+# - mailhog - fake smtp email testing tool for (development only)
+
+version: "3.9"
+
+services:
+  server:
+    restart: always
+    build:
+        context: .
+        dockerfile: ./docker/development/express/Dockerfile
+    volumes:
+        - /app/node_modules
+        - .:/app
+    depends_on:
+        - mongodb
+    ports:
+        - "6000:6000"
+    environment:
+        NODE_ENV: ${NODE_ENV}
+        MONGO_URI: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongodb
+    networks:
+        - codera
+
+  # client:
+  #   build:
+  #       context: ./client
+  #       dockerfile: ./docker/development/Dockerfile
+  #   restart: on-failure
+  #   volumes:
+  #     - ./client:/app
+  #     - /app/node_modules
+  #   networks:
+  #     - codera
+
+  mongodb:
+    image: mongo:5.0.6-focal
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - codera
+
+  mongo-express:
+    image: mongo-express:0.54.0
+    depends_on:
+      - mongodb
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: pass@word
+    networks:
+      - codera
+
+  mailhog:
+    image: mailhog/mailhog:v1.0.0
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+    networks:
+      - codera
+
+  # nginx:
+  #   build:
+  #     context: ./docker/development/nginx
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "8080:80"
+  #   restart: always
+  #   depends_on:
+  #     - server
+  #   volumes:
+  #     - static_volume:/app/staticfiles
+  #     - pdf_volume:/app/docs
+  #   networks:
+  #     - codera
+
+networks:
+  codera:
+    driver: bridge
+
+volumes:
+  mongodb-data:
