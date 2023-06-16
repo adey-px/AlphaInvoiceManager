@@ -1,29 +1,30 @@
-# Development Dockerfle
-# Create .dockerignore file in root folder
-# List files to ignore while building this image
+# Dockerfile with Multi-stage-build using statements
+# - each statement begins a new stage of the build
+# - create .dockerignore file in root folder
+# - list files to ignore while building images
 
-# node version to use, selected from docker registry
+# Set node version to use, from docker hub registry
 # alpine is light-weight, https://hub.docker.com/_/node
 ARG NODE_VERSION=16-alpine3.12
 
-# initialize new build, base image using above version
+# Initialize new build, base image using above version
 FROM node:${NODE_VERSION}
 
-# label instruction to add image meta data
+# Set label instruction to add image meta data
 LABEL name="mongilo-beta-invoice"
 LABEL license="MIT"
 LABEL description="Mongilo Invoice Image"
 
-# environment instruction from .env
+# Set environment type from .env
 ENV NODE_ENV=development
 
-# create home directory named app
+# Create home directory named app
 ARG APP_HOME=/app
 
-# workin directory from home directory
+# Set workin directory from home directory
 WORKDIR ${APP_HOME}
 
-# by default, docker runs root user with all priviledges
+# By default, docker runs root user with all priviledges
 # run containers as non-root user, create group & user as below
 RUN addgroup --system admin \
   && adduser --system --ingroup admin oreofe
@@ -41,22 +42,22 @@ RUN addgroup --system admin \
 #    rm -fR phantomjs-2.1.1-linux-x86_64 && \
 #    apk del curl
 
-# copy dependencies to root directory
+# Copy dependencies to root directory
 COPY package*.json ./
 
-# install dependencies
+# Install dependencies
 RUN npm install
 
-# change ownership to allow access of user in the group
+# Change ownership to allow access of user in the group
 # user:group to working directory above
 COPY --chown=oreofe:admin . ${APP_HOME}
 
-# execute change of ownership to working directory
+# Execute change of ownership to working directory
 RUN chown oreofe:admin ${APP_HOME}
 
-# switch to newly created user
+# Switch to newly created user
 USER oreofe
 
-# start development server with 'npm run dev'
+# Start development server with 'npm run dev'
 # note its already stated in package.json
 CMD [ "npm","run","dev" ]
