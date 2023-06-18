@@ -1,10 +1,10 @@
-# Docker compose file, with services to run
-# * Each service is built as a container, & an image
+# Docker compose file, with multiple services to run
+# * Each service is built as an image for a container
 # - client - frontend logic & ui presentation (done last)
-# - server - express backend API & serve endpoints
-# - mongodb - dhttps://hub.docker.com/_/mongo
+# - server - express backend API endpoints server
+# - mongodb - refer dhttps://hub.docker.com/_/mongo
 # - mongo express - https://hub.docker.com/_/mongo-express
-# - mailhog - fake smtp email testing tool for (development only)
+# - mailhog - fake smtp email testing tool for (dev only)
 
 version: "3.9"
 
